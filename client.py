@@ -4,8 +4,8 @@ class VClient:
 
         mounths = {1: 'января', 2: 'февраля', 3: 'марта', 4: 'апреля', 5: 'мая', 6: 'июня', 7: 'июля', 8: 'августа', 9: 'сентяюря', 10: 'октября', 11: 'ноября', 12: 'декабря'}
 
-        login = input('Login:')
-        password=input('Password: ')
+        login = input(' Login:')
+        password=input(' Password: ')
 
         try:
             vk_session = vk_api.VkApi(login, password, app_id='2685278')
@@ -22,12 +22,12 @@ class VClient:
         acc_first_name = acc_info['first_name']
         acc_last_name = acc_info['last_name']
         acc_birthday = acc_info['bdate'].split('.')
-        acc_birthday_day = acc_birthday[0]
-        acc_birthday_mounth = mounths[int(acc_birthday[1])]
-        acc_birthday_year = acc_birthday[-1]
+        acc_birthday = f'{acc_birthday[0]} {mounths[int(acc_birthday[1])]} {acc_birthday[2]} года'
         acc_hometown = acc_info['home_town']
         acc_relation = acc_info['relation'] 
-        acc_screen_name = acc_info['screen_name']
+        try:
+            acc_screen_name = acc_info['screen_name']
+        except KeyError: None
         acc_sex = acc_info['sex']
         acc_status = acc_info['status']
         try:
@@ -48,6 +48,9 @@ class VClient:
         except NameError: None
         try:
             print(f'из страны {acc_country}. ', end='')
+        except NameError: None
+        try:
+            print(f'У пользователя имеется короткая ссылка: {acc_screen_name}. ', end='')
         except NameError: None
         if acc_hometown != '':
             print(f'Родной город - {acc_hometown}. ', end='')
@@ -91,7 +94,7 @@ class VClient:
                     print('Статус отношений - влюблён. ', end='')
                 elif acc_relation == 8:
                     print('Статус отношений - в гражданском браке. ', end='')
-        print(f'День рождения пользователя - {acc_birthday_day} {acc_birthday_mounth} {acc_birthday_year} года. ', end='')
+        print(f'День рождения пользователя - {acc_birthday}. ', end='')
         if acc_sex !=0:
             if acc_sex == 1:
                 print('Пол пользователя - женский. ', end='')
